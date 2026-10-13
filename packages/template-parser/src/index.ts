@@ -222,8 +222,10 @@ function preprocessNode(node: Node, sourceCode?: string) {
       continue;
     }
     const isArr = Array.isArray(child);
-    if (child.type !== undefined) {
-      // Angular sometimes uses a prop called type already
+    // Angular sometimes uses a prop called type already. Only record it on the
+    // first visit: nodes can be reached more than once (e.g. inputs hoisted
+    // onto a structural directive's `Template` are shared with its `Element`).
+    if (child.type !== undefined && child.__originalType === undefined) {
       child.__originalType = child.type;
     }
     if (!isArr && !child.type) {
@@ -233,7 +235,7 @@ function preprocessNode(node: Node, sourceCode?: string) {
     if (isArr) {
       for (j = 0; j < child.length; ++j) {
         const c = child[j] as Node;
-        if (c.type !== undefined) {
+        if (c.type !== undefined && c.__originalType === undefined) {
           // Angular sometimes uses a prop called type already
           c.__originalType = c.type;
         }

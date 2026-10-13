@@ -403,4 +403,24 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
     data: { element: 'div' },
     options: [{ allowNgStyle: true, allowBindToStyle: 'dynamic' }],
   }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when attr.style binding exists on a structural directive host',
+    annotatedSource: `
+        <div *ngIf="c" [attr.style]="x"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+  }),
+  convertAnnotatedSourceToFailureCase({
+    messageId,
+    description:
+      'should fail when style property binding exists on a structural directive host',
+    annotatedSource: `
+        <div *ngIf="c" [style.color]="x"></div>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+    data: { element: 'div' },
+  }),
 ];
