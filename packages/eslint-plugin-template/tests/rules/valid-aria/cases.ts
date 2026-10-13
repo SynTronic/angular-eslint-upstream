@@ -257,6 +257,26 @@ export const invalid: readonly InvalidTestCase<MessageIds, Options>[] = [
   }),
   convertAnnotatedSourceToFailureCase({
     description:
+      'should fail if a camelCase ARIA name follows the `attr.` prefix on a structural directive host',
+    annotatedSource: `
+        <div *ngIf="c" [attr.ariaLabel]="x"></div>
+                       ~~~~~~~~~~~~~~~~~~~~
+      `,
+    messageId: invalidAttrBindingName,
+    data: { attribute: 'ariaLabel', suggested: 'aria-label' },
+    suggestions: [
+      {
+        messageId: suggestRenameAria,
+        data: { suggested: 'attr.aria-label' },
+        output: `
+        <div *ngIf="c" [attr.aria-label]="x"></div>
+                       
+      `,
+      },
+    ],
+  }),
+  convertAnnotatedSourceToFailureCase({
+    description:
       'should fail if a camelCase ARIA name follows the `attr.` prefix on a custom element',
     annotatedSource: `
         <app-foo [attr.ariaLabel]="x"></app-foo>

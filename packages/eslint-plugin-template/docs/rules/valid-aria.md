@@ -191,6 +191,33 @@ The rule does not have any configuration options.
 #### ❌ Invalid Code
 
 ```html
+<div *ngIf="c" [attr.ariaLabel]="x"></div>
+               ~~~~~~~~~~~~~~~~~~~~
+```
+
+<br>
+
+---
+
+<br>
+
+#### Default Config
+
+```json
+{
+  "rules": {
+    "@angular-eslint/template/valid-aria": [
+      "error"
+    ]
+  }
+}
+```
+
+<br>
+
+#### ❌ Invalid Code
+
+```html
 <app-foo [attr.ariaLabel]="x"></app-foo>
          ~~~~~~~~~~~~~~~~~~~~
 ```
